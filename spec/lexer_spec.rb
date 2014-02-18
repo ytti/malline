@@ -1,5 +1,4 @@
 require_relative 'spec_helper.rb'
-
 describe Lexer do
   it "can be created with string argument" do
     Lexer.new('k').must_be_instance_of Lexer
@@ -16,6 +15,15 @@ describe Lexer do
       ary, token = [], nil
       ary << token while token = lex.next_token
       ary.must_equal tst[:lex]
+    end
+  end
+
+  describe '#line' do
+    it 'must not consider trailing \n as new line' do
+      lex = Lexer.new "foo\n"
+      ss = lex.instance_variable_get :@ss
+      ss.scan_until(/.*/m)
+      lex.line.must_equal 1
     end
   end
 end

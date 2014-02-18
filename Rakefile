@@ -7,7 +7,9 @@ end
 task :test => :compile do
   Rake::TestTask.new do |t|
     t.libs.push "lib"
-    t.test_files = FileList['spec/*_spec.rb']
+    all = FileList['spec/*_spec.rb']
+    first = %w(spec/lexer_spec.rb spec/handler_spec.rb)
+    t.test_files = [first, all-first].flatten
     t.verbose = true
   end
 end
