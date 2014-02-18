@@ -5,14 +5,11 @@ require 'pry'
 class Int
   attr_accessor :name, :mtu, :description, :poop
   def initialize
-    @name = 'xe-1/2/3.42'
-    @mtu = 1500
+    @name        = 'xe-1/2/3.42'
+    @mtu         = 1500
     @description = 'K: S-123455 - poop customer'
-    @poop = true
   end
-  def get_binding
-    binding
-  end
+  def get_binding; binding; end
 end
 
 template = <<EOF

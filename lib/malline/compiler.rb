@@ -7,7 +7,6 @@ module Malline
     def initialize parsed
       @parsed = parsed
       @out = nil
-      @str = ''
       @cmd = {
         :if => {
           :now  => 0,
@@ -15,7 +14,6 @@ module Malline
           :id   => [],
         },
       }
-      @seen = []
     end
 
     def compile
@@ -66,16 +64,18 @@ module Malline
     end
 
     def resolve out_org
-      out = ["#{OUT}=''"]
+      out = ["#{OUT}='';"]
       cmp = []
+      seen = []
       out_org.each do |line, line_nr|
-        resolve_cmd_if(line_nr, cmp, out) unless @seen.include? line_nr
-        @seen << line_nr
+        resolve_cmd_if(line_nr, cmp, out) unless seen.include? line_nr
+        seen << line_nr
         if not cmp.empty?
           line = line + ' if ' + cmp.join(' and ')
         end
         out << line + ';'
       end
+      out << "#{OUT}"
       out.join "\n"
     end
 

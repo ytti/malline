@@ -3,8 +3,64 @@ require 'minitest/pride'
 require_relative '../lib/malline.rb'
 include Malline
 
-TEST = [
+class Int
+  attr_accessor :name, :mtu, :description, :vrf
+  def initialize
+    @name = 'xe-1/2/3'
+    @mtu = 1500
+    @description = 'K: S-12345 foobar \'quote\' xyzzy'
+    @vrf = 'VRF0001'
+  end
+  def get_binding; binding; end
+end
 
+TemplateJunOS = <<EOF
+interfaces {
+   <% name %> {
+     mtu <%if mtu %>;
+     description "<%if description %>";
+   }
+}
+EOF
+TemplateIOS = <<EOF
+interface <% name %>
+  description <%if description %>
+  mtu <%if mtu %>
+  vrf forwarding <%if vrf %>
+EOF
+
+ResultJunOS = []
+ResultJunOS << <<EOF
+interfaces {
+   xe-1/2/3 {
+     mtu 1500;
+     description "K: S-12345 foobar 'quote' xyzzy";
+   }
+}
+EOF
+ResultJunOS << <<EOF
+interfaces {
+   xe-1/2/3 {
+     mtu 42;
+   }
+}
+EOF
+
+ResultIOS = []
+ResultIOS << <<EOF
+interface GigabitEthernet0/42
+  description K: S-12345 foobar 'quote' xyzzy
+  mtu 1500
+  vrf forwarding VRF0001
+EOF
+ResultIOS << <<EOF
+interface GigabitEthernet0/42
+  description f00fc7c8
+  vrf forwarding xyzzy
+EOF
+
+
+TEST = [
 {
 :string => "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 :lex => [[:DATA, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 1, 1]],

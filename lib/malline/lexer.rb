@@ -30,7 +30,7 @@ module Malline
     end
 
     def line
-      @ss.string[0..@ss.pos].count("\n")+1
+      @ss.string[0..@ss.pos].lines.count
     end
   end
 end
