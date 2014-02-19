@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name              = 'malline'
+  s.name              = 'mallinna'
   s.version           = '0.0.2'
   s.platform          = Gem::Platform::RUBY
   s.authors           = [ 'Saku Ytti' ]
@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.homepage          = 'https://github.com/ytti/malline'
   s.summary           = 'Templating language targeting IOS/JunOS configs'
   s.description       = 'Mostly like ERB, but <%if foo%> conditional will omit whole line unless code evaluates true'
-  s.rubyforge_project = s.name
+  s.rubyforge_project =  s.name
   s.files             = `git ls-files`.split("\n")
   s.require_path      = 'lib'
 
@@ -15,4 +15,3 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'racc'
 end
-
