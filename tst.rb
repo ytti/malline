@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require_relative './lib/malline'
-require 'pry'
 class Int
   attr_accessor :name, :mtu, :description, :poop
   def initialize
@@ -21,6 +20,4 @@ interfaces {
 }
 EOF
 
-int = Int.new
-cfg = Malline.run template, int.get_binding
-binding.pry
+puts Malline.run template, Int.new.get_binding
